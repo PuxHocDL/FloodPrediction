@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân tích Rủi ro Lũ lụt tại Ấn Độ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c9aff',
+                        secondary: '#94d8c9',
+                        accent: '#ffa69e',
+                        light: '#f8fbff',
+                        dark: '#45536a'
+                    },
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="scripts.js" defer></script>
+</head>
+<body class="bg-light font-sans antialiased text-dark">
+    <!-- Header với hiệu ứng gradient -->
+    <header class="bg-gradient-to-r from-primary to-blue-700 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <svg class="w-10 h-10 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v10l-8 4m0-10L4 7m8 4v10"></path>
+                </svg>
+                <h1 class="text-3xl font-bold">Phân tích Rủi ro Lũ lụt</h1>
+            </div>
+            <div class="flex space-x-4">
+                <a href="#data" class="px-3 py-2 rounded-md hover:bg-white/20 transition-colors duration-200 flex items-center">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Dữ liệu
+                </a>
+                <a href="#visualize" class="px-3 py-2 rounded-md hover:bg-white/20 transition-colors duration-200 flex items-center">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                    </svg>
+                    Trực quan
+                </a>
+                <a href="#predict" class="px-3 py-2 rounded-md hover:bg-white/20 transition-colors duration-200 flex items-center">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    Dự đoán
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6 max-w-7xl">
+        <!-- Breadcrumb & Title -->
+        <div class="mb-6">
+            <div class="text-sm text-gray-500 mb-2">
+                <span>Trang chủ</span>
+                <span class="mx-2">/</span>
+                <span class="text-primary font-medium">Phân tích Rủi ro Lũ lụt</span>
+            </div>
+            <h2 class="text-3xl font-bold text-dark">Dự đoán & Phân tích Lũ lụt tại Ấn Độ</h2>
+            <p class="text-gray-600 mt-2">Công cụ phân tích và dự đoán nguy cơ lũ lụt dựa trên các yếu tố môi trường và địa lý</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto pb-1">
+            <button class="tab-button px-6 py-3 font-semibold text-blue-600 border-b-2 border-blue-600 active" onclick="openTab('data')">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Hiểu về dữ liệu
+                </span>
+            </button>
+            <button class="tab-button px-6 py-3 font-semibold text-gray-600" onclick="openTab('visualize')">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                    </svg>
+                    Trực quan hóa
+                </span>
+            </button>
+            <button class="tab-button px-6 py-3 font-semibold text-gray-600" onclick="openTab('predict')">
+                <span class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    Dự đoán
+                </span>
+            </button>
+        </div>
+
+        <!-- Tab: Hiểu về dữ liệu -->
+        <div id="data" class="tab-content bg-white rounded-lg shadow-md p-6" style="opacity: 1;">
+            <div class="flex items-center mb-4 text-primary">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-2xl font-bold">Tổng quan về Dữ liệu</h2>
+            </div>
+            
+            <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <p class="text-gray-700">Dữ liệu được thu thập từ các trạm đo mưa và thủy văn tại các vùng khác nhau của Ấn Độ. Các yếu tố đo lường bao gồm lượng mưa, nhiệt độ, độ ẩm và các đặc điểm địa lý khác.</p>
+            </div>
+            
+            <div id="data-info" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"></div>
+            
+            <div class="bg-white rounded-lg shadow p-4 mb-6">
+                <h3 class="font-bold text-lg mb-4 text-primary">Phân bố lượng mưa</h3>
+                <canvas id="rainfallChart" class="bg-white p-4 rounded-lg"></canvas>
+            </div>
+            
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-6">
+                <div class="flex items-center text-gray-700">
+                    <svg class="w-5 h-5 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="font-semibold">Lưu ý</h3>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Biểu đồ trên cho thấy phân bố lượng mưa trong bộ dữ liệu của chúng ta. Những đỉnh cao trong biểu đồ thể hiện các khoảng lượng mưa phổ biến nhất.</p>
+            </div>
+        </div>
+
+        <!-- Tab: Trực quan hóa -->
+        <div id="visualize" class="tab-content hidden bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center mb-4 text-primary">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                </svg>
+                <h2 class="text-2xl font-bold">Tầm quan trọng của Đặc trưng</h2>
+            </div>
+            
+            <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <p class="text-gray-700">Biểu đồ dưới đây hiển thị tầm quan trọng tương đối của từng đặc trưng trong mô hình dự đoán. Các đặc trưng có giá trị cao hơn có ảnh hưởng nhiều hơn đến kết quả dự đoán.</p>
+            </div>
+            
+            <div class="bg-white rounded-lg">
+                <canvas id="importanceChart" class="bg-white p-4 rounded-lg"></canvas>
+            </div>
+        </div>
+
+        <!-- Tab: Dự đoán -->
+        <div id="predict" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4 text-primary">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <h2 class="text-2xl font-bold">Dự đoán Rủi ro Lũ lụt</h2>
+                </div>
+                
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <p class="text-gray-700">Nhập các thông số về điều kiện môi trường và địa lý vào form dưới đây để dự đoán nguy cơ lũ lụt.</p>
+                </div>
+                
+                <form id="predict-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lượng mưa (mm):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="rainfall_mm" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nhiệt độ (°C):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="temperature_c" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Độ ẩm (%):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v10l-8 4m0-10L4 7m8 4v10"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="humidity_percent" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lưu lượng sông (m³/s):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="river_discharge_m3s" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mực nước (m):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="water_level_m" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Độ cao (m):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="elevation_m" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Loại phủ đất:</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                            </span>
+                            <select name="land_cover" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required>
+                                <option value="" disabled selected>Chọn loại phủ đất</option>
+                                <option value="Urban">Đô thị</option>
+                                <option value="Forest">Rừng</option>
+                                <option value="Agricultural">Nông nghiệp</option>
+                                <option value="Desert">Sa mạc</option>
+                                <option value="Water Body">Thủy vực</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Loại đất:</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                            </span>
+                            <select name="soil_type" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required>
+                                <option value="" disabled selected>Chọn loại đất</option>
+                                <option value="Clay">Đất sét</option>
+                                <option value="Sandy">Đất cát</option>
+                                <option value="Loam">Đất mùn</option>
+                                <option value="Silt">Đất bùn</option>
+                                <option value="Peat">Đất than bùn</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Mật độ dân số (người/km²):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="population_density" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required step="0.01" value="0">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cơ sở hạ tầng (1-10):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="infrastructure" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required min="1" max="10" value="1">
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lịch sử lũ lụt (số lần):</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </span>
+                            <input type="number" name="historical_floods" class="w-full pl-10 p-3 border rounded-lg focus:ring focus:ring-blue-200" required min="0" value="0">
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 flex justify-center mt-4">
+                        <button type="submit" class="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-primary to-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+                            Dự đoán
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="predict-result" class="mt-6"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2025 Phân tích Rủi ro Lũ lụt tại Ấn Độ. All rights reserved.</p>
+            <p class="text-sm mt-2">Developed by AI123.</p>
+        </div>
+    </footer>
+</body>
+</html>

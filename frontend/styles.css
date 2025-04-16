@@ -1,0 +1,204 @@
+/* Thiết lập cơ bản */
+
+:root {
+  --primary-color: #7c9aff;
+  --primary-light: #e5f0ff;
+  --secondary-color: #94d8c9;
+  --accent-color: #ffa69e;
+  --text-color: #45536a;
+  --light-bg: #f8fbff;
+  --white: #ffffff;
+  --shadow: 0 4px 12px rgba(164, 174, 209, 0.15);
+}
+
+body {
+  background-color: var(--light-bg);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Navbar styling */
+
+nav {
+  background: linear-gradient(135deg, var(--primary-color), #6988e7);
+  box-shadow: var(--shadow);
+  padding: 1rem 2rem;
+}
+
+nav h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+nav a {
+  transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+/* Container styling */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card styling */
+
+.card {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(164, 174, 209, 0.2);
+}
+
+/* Tab styling */
+
+.tab-button {
+  border: none;
+  background-color: transparent;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  margin-right: 4px;
+}
+
+.tab-button.active {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+}
+
+.tab-button:hover:not(.active) {
+  background-color: rgba(124, 154, 255, 0.1);
+  color: var(--primary-color);
+}
+
+/* Form styling */
+
+#predict-form input, 
+#predict-form select {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background-color: var(--white);
+}
+
+#predict-form input:focus, 
+#predict-form select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(124, 154, 255, 0.15);
+  outline: none;
+}
+
+#predict-form label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  color: var(--text-color);
+}
+
+#predict-form button {
+  background: linear-gradient(135deg, var(--primary-color), #6988e7);
+  color: var(--white);
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(124, 154, 255, 0.25);
+}
+
+#predict-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(124, 154, 255, 0.3);
+}
+
+/* Chart styling */
+
+canvas {
+  max-height: 400px;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+/* Kết quả dự đoán */
+
+#predict-result {
+  background-color: var(--primary-light);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--primary-color);
+}
+
+#predict-result p {
+  margin-bottom: 0.5rem;
+}
+
+/* Thẻ thông tin */
+
+#data-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+#data-info p {
+  background-color: var(--primary-light);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#data-info p strong {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* Hiệu ứng lỗi */
+
+.text-red-500 {
+  color: #e53e3e;
+  padding: 1rem;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  border-left: 4px solid #e53e3e;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  #data-info {
+    grid-template-columns: 1fr;
+  }
+}
